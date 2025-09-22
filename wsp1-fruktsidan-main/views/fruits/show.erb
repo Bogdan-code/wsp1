@@ -1,0 +1,21 @@
+<!--<blockquote>Todo: Visa all information on frukten (med ID från URLen).</blockquote>-->
+<h2>Mer info om: <%= @fruit['name'].capitalize %></h2>
+
+<p><em>Smakpoäng: </em> <%= @fruit['tastiness'] %>   </p>
+<% i = 0%>
+<% while @fruit['tastiness'].to_i > i %>
+    *
+    <% i+=1 %>
+<% end%>
+<p><em>Beskrivning: </em> <%= @fruit['description'] %></p>
+
+<form action="/fruits/<%=@fruit['id']%>/addtocart" method="post">
+    <label>Antal: <input type="integer" name="count" value="<%=@count%>"></label>
+	<input type="submit" value="Lägg till i varukorgen">
+</form>
+
+<li><a href="/fruits/<%=@fruit['id']%>/edit">Redigera frukt</a></li>
+<li><a href="/fruits/<%=@fruit['id']%>/delete">RADERA FRUKT</a></li>
+
+
+
