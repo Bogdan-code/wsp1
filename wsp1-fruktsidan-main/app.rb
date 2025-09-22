@@ -8,7 +8,7 @@ class App < Sinatra::Base
 
     # Funktion för att prata med databasen
     # Exempel på användning: db.execute('SELECT * FROM fruits')
-
+  enable :sessions
 
     def db
       return @db if @db
@@ -19,6 +19,8 @@ class App < Sinatra::Base
       
       return @db
     end
+
+
 
     #Kollar igenom alla fruitid's inuti arrayen för att se om den redan finns
     def checkFruitId(fruitInfo, fruitId)
@@ -172,8 +174,8 @@ class App < Sinatra::Base
       #todo: Ta bort frukten i databasen med id:t
       @fruit = db.execute('SELECT * FROM fruits WHERE id=?', id).first
 
-      count = params['count'].chomp.to_s
-
+      count = (params['count'] || "").to_s.strip
+      halt 400, "antal krävs" if count.empty?
       @customerinfo = db.execute('SELECT DISTINCT * FROM customerinfo WHERE customerId=?', session['session_id']).first
   
       customerinfo = @customerinfo['selectedFruit']
@@ -222,5 +224,23 @@ class App < Sinatra::Base
     end
 
 
+    get '/login' do
+      erb(:"/login")
+    end
+
+    get '/signup' do
+      erb(:"/signup")
+    end
+
+    
+    post '/login' do
+      redirect('/fruits')
+    end
+
+    post '/signup' do
+      redirect('/fruits')    
+    end
+
+    
     
 end
