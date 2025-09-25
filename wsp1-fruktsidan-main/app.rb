@@ -20,7 +20,10 @@ class App < Sinatra::Base
       return @db
     end
 
-
+    before do
+      if @loggedin
+      end
+    end
 
     #Kollar igenom alla fruitid's inuti arrayen för att se om den redan finns
     def checkFruitId(fruitInfo, fruitId)
@@ -44,9 +47,9 @@ class App < Sinatra::Base
       count = 0
 
       @customerinfo = db.execute('SELECT DISTINCT * FROM customerinfo WHERE customerId=?', session['session_id']).first
-  
+      p @customerinfo
       customerinfo = @customerinfo['selectedFruit']
-
+      p customerinfo
       fruitInfo = customerinfo.dup.chomp.split(" ").map{|s| s.split(":")}
 
       fruitInfo.each do |i|
